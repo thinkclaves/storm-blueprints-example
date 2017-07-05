@@ -31,6 +31,7 @@ public class OutbreakDetectionTopology {
 				.each(new Fields("event", "city"), new HourAssignment(), new Fields("hour", "cityDiseaseHour"))
 				.groupBy(new Fields("cityDiseaseHour"))
 				// 使用persistentAggregate 对统计量进行持久性存储
+				// OutbreakTrendFactory 是我们的toplogy提供给Storm的工厂类
 				.persistentAggregate(new OutbreakTrendFactory(), new Count(), new Fields("count")).newValuesStream()
 				// 如果统计量超过阈值，OutbreakDetector向后发送一个告警信息
 				.each(new Fields("cityDiseaseHour", "count"), new OutbreakDetector(), new Fields("alert"))

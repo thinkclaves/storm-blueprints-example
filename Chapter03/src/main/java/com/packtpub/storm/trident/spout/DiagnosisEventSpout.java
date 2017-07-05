@@ -29,9 +29,10 @@ public class DiagnosisEventSpout implements ITridentSpout<Long> {
 	public Map getComponentConfiguration() {
 		return null;
 	}
-
+	
 	@Override
 	public Fields getOutputFields() {
+	// 声明发射的tuple包含一个字段event，值是一个
 		return new Fields("event");
 	}
 
