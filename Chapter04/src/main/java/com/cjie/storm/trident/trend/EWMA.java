@@ -28,6 +28,7 @@ public class EWMA implements Serializable {
     }
 
     // Unix load average-style alpha constants
+    
     public static final double ONE_MINUTE_ALPHA = 1 - Math.exp(-5d / 60d / 1d);
     public static final double FIVE_MINUTE_ALPHA = 1 - Math.exp(-5d / 60d / 5d);
     public static final double FIFTEEN_MINUTE_ALPHA =  1 - Math.exp(-5d / 60d / 15d);
@@ -70,6 +71,10 @@ public class EWMA implements Serializable {
         mark(System.currentTimeMillis());
     }
 
+    /**
+     * 更新移动平均值，如果没有参数，则使用当前时间来计算平均值
+     * @param time
+     */
     public synchronized void mark(long time) {
         if (this.sliding) {
             if (time - this.last > this.window) {
@@ -87,13 +92,27 @@ public class EWMA implements Serializable {
         this.average = (1.0 - alpha) * diff + alpha * this.average;
         this.last = time;
     }
+    /**
+     * 返回mark()方法多次调用的平均间隔时间，单位是微秒
+     * @return
+     */
     public double getAverage() {
         return this.average;
     }
+    /**
+     * 按照特定单位时间（秒/分钟/小时/etc）返回平均值
+     * @param time
+     * @return
+     */
     public double getAverageIn(Time time) {
         return this.average == 0.0 ? this.average :
                 this.average / time.getTime();
     }
+    /**
+     * 返回特定时间度量内调用mark的频率
+     * @param time
+     * @return
+     */
     public double getAverageRatePer(Time time) {
         return this.average == 0.0 ? this.average :
                 time.getTime() / this.average;

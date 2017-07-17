@@ -12,5 +12,7 @@ import java.io.Serializable;
  * To change this template use File | Settings | File Templates.
  */
 public interface MessageMapper extends Serializable {
-    public String toMessageBody(TridentTuple tuple);
+
+	// 从tuple方法格式化数据到适用于消息通知的字符串
+	public String toMessageBody(TridentTuple tuple);
 }

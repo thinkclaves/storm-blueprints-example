@@ -12,6 +12,7 @@ import storm.trident.tuple.TridentTuple;
  */
 public class BooleanFilter extends BaseFilter {
     public boolean isKeep(TridentTuple tuple) {
+    	// 如果上一步入射为true，则不会被过滤
         return tuple.getBoolean(0);
     }
 }

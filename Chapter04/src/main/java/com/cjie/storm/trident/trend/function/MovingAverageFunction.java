@@ -26,8 +26,10 @@ public class MovingAverageFunction extends
     }
     public void execute(TridentTuple tuple,
                         TridentCollector collector) {
+    	//获取long值，并用mark更新当前平均速率
         this.ewma.mark(tuple.getLong(0));
         LOG.debug("Rate: {}", this.ewma.getAverageRatePer(this.emitRatePer));
+        //发送当前平均值
         collector.emit(new Values(this.ewma.getAverageRatePer(this.emitRatePer)));
     }
 }

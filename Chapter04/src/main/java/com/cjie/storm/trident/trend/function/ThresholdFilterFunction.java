@@ -23,9 +23,11 @@ public class ThresholdFilterFunction extends
     }
     private State last = State.BELOW;
     private double threshold;
+    //读入一个double参数用来确定对比的阈值
     public ThresholdFilterFunction(double threshold){
         this.threshold = threshold;
     }
+    //
     public void execute(TridentTuple tuple,
                         TridentCollector collector) {
         double val = tuple.getDouble(0);
